@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sürpriz Var!</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: black;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            overflow: hidden;
+            flex-direction: column;
+        }
+
+        .message {
+            font-size: 24px;
+            opacity: 1;
+            transition: opacity 2s ease-in-out;
+        }
+
+        #click-message {
+            font-size: 18px;
+            margin-bottom: 20px;
+            opacity: 1;
+            transition: opacity 1s ease-in-out;
+        }
+    </style>
+    <script>
+        function showMessage(text, delay, nextAction) {
+            setTimeout(() => {
+                let message = document.getElementById("message");
+                message.innerText = text;
+                message.style.opacity = "1";
+                setTimeout(() => {
+                    message.style.opacity = "0";
+                    if (nextAction) nextAction();
+                }, 2000);
+            }, delay);
+        }
+
+        window.onload = function () {
+            let message = document.getElementById("message");
+            let audio = document.getElementById("background-music");
+            let clickMessage = document.getElementById("click-message");
+
+            document.body.addEventListener("click", function () {
+                if (audio.paused) {
+                    audio.play().then(() => {
+                        clickMessage.style.opacity = "0"; // Tıklandıktan sonra mesajı gizle
+                    }).catch(error => console.log("Müzik başlatılamadı: ", error));
+                }
+            });
+
+            showMessage("Sana özel bir şey yükleniyor...", 0, () => {
+                showMessage("Lütfen biraz bekle...", 2500, () => {
+                    showMessage("Kertenkele kardeşim benim!", 2500, () => {
+                        setTimeout(() => {
+                            window.location.href = "https://imgur.com/a/dCBqefT"; // Komik resme yönlendirme
+                        }, 2000);
+                    });
+                });
+            });
+        }
+    </script>
+</head>
+<body>
+    <div id="click-message">🔊 Sesi duyana kadar ekrana tıkla!</div>
+    <div id="message" class="message">Sana özel bir şey yükleniyor...</div>
+    <audio id="background-music" src="https://files.catbox.moe/mpzn9q.mp3" loop></audio>
+</body>
+</html>
